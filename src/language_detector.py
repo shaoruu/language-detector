@@ -1,9 +1,12 @@
+import os
 import csv
 import sys
+import uuid
+import shutil
+import atexit
 import numpy as np
 import matplotlib.pyplot as plt
-from PIL import Image
-from PIL.ImageQt import ImageQt
+from pathlib import Path
 from PyQt5.QtWidgets import QMainWindow, QWidget, QApplication, QFileDialog, QListWidgetItem
 from PyQt5.QtGui import QPixmap
 
@@ -23,13 +26,15 @@ class LanguageDetector(QWidget):
         self.main_window = QMainWindow()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self.main_window)
+        self.ui.graph.setScaledContents(True)
 
     def init_listeners(self):
         self.ui.importButton.clicked.connect(lambda: self.import_file())
         self.ui.runButton.clicked.connect(lambda: self.predict())
+        atexit.register(self.on_terminate)
 
     def init_frequencies(self):
-        with open('assets/letter-frequency.txt', encoding='utf-8') as csv_file:
+        with open(Path('assets/letter-frequency.txt'), encoding='utf-8') as csv_file:
             csv_reader = csv.DictReader(csv_file, delimiter=';')
 
             line_count = 0
@@ -122,42 +127,34 @@ class LanguageDetector(QWidget):
         plt.xticks(ypos, languages)
         plt.ylabel('score')
         plt.bar(ypos, values)
-        # plt.show()
 
-        plt_img = self.fig2img(plt.gcf())
-        self.ui.graph.setScaledContents(True)
-        self.ui.graph.setPixmap(QPixmap.fromImage(ImageQt(plt_img)))
+        file_loc = str(Path(f"saves/{str(uuid.uuid1())}.png"))
+        plt.savefig(file_loc)
+
+        self.ui.graph.setPixmap(QPixmap(file_loc))
         plt.clf()
 
-    def fig2data(self, fig):
-        # draw the renderer
-        fig.canvas.draw()
-
-        # Get the RGBA buffer from the figure
-        w, h = fig.canvas.get_width_height()
-        buf = np.fromstring(fig.canvas.tostring_argb(), dtype=np.uint8)
-        buf.shape = (w, h, 4)
-
-        # canvas.tostring_argb give pixmap in ARGB mode. Roll the ALPHA channel to have it in RGBA mode
-        buf = np.roll(buf, 3, axis=2)
-        return buf
-
-    def fig2img(self, fig):
-        """
-        @brief Convert a Matplotlib figure to a PIL Image in RGBA format and return it
-        @param fig a matplotlib figure
-        @return a Python Imaging Library ( PIL ) image
-        """
-        # put the figure pixmap into a numpy array
-        buf = self.fig2data(fig)
-        w, h, d = buf.shape
-        return Image.frombytes("RGBA", (w, h), buf.tostring())
+    def on_terminate(self):
+        # removed saved images
+        folder = Path('saves')
+        for filename in os.listdir(folder):
+            file_path = os.path.join(folder, filename)
+            try:
+                if os.path.isfile(file_path) or os.path.islink(file_path):
+                    os.unlink(file_path)
+                elif os.path.isdir(file_path):
+                    shutil.rmtree(file_path)
+            except Exception as e:
+                print('Failed to delete %s. Reason: %s' % (file_path, e))
 
     def ask_for_file(self):
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog
-        filename, _ = QFileDialog.getOpenFileName(QWidget(
-        ), "Choose a Text File", "", "All Files (*);;Python Files (*.py)", options=options)
+        filename, _ = QFileDialog.getOpenFileName(QWidget(),
+                                                  "Choose a Text File",
+                                                  "",
+                                                  "All Files (*);;Python Files (*.py)",
+                                                  options=options)
         if filename:
             return filename
         return ''
