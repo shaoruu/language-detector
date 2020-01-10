@@ -7,8 +7,9 @@ import atexit
 import numpy as np
 import matplotlib.pyplot as plt
 from pathlib import Path
-from PyQt5.QtWidgets import QMainWindow, QWidget, QApplication, QFileDialog, QListWidgetItem
+from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPixmap
+from PyQt5.QtWidgets import QMainWindow, QWidget, QApplication, QFileDialog, QListWidgetItem
 
 from .ui import Ui_MainWindow
 
@@ -26,7 +27,6 @@ class LanguageDetector(QWidget):
         self.main_window = QMainWindow()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self.main_window)
-        self.ui.graph.setScaledContents(True)
 
     def init_listeners(self):
         self.ui.importButton.clicked.connect(lambda: self.import_file())
@@ -66,7 +66,7 @@ class LanguageDetector(QWidget):
         text = self.ui.inputBox.toPlainText().lower().replace(' ', '')
 
         if not text:
-            self.ui.graph.setText("Empty Input\n Detected.")
+            self.ui.graph.setText("Empty Input Detected.")
             return
 
         text_letter_lookup = dict()
@@ -121,18 +121,27 @@ class LanguageDetector(QWidget):
     def graph(self, prediction_results):
         ypos = np.arange(len(prediction_results))
 
-        languages = [l[0][0:2] for l in prediction_results]
+        languages = [l[0] for l in prediction_results]
         values = [v[1] for v in prediction_results]
 
+        plt.title('Square Error of All Languages')
         plt.xticks(ypos, languages)
         plt.ylabel('score')
         plt.bar(ypos, values)
 
+        fig = plt.gcf()
+        fig.autofmt_xdate()
+
         file_loc = str(Path(f"saves/{str(uuid.uuid1())}.png"))
         plt.savefig(file_loc)
 
-        self.ui.graph.setPixmap(QPixmap(file_loc))
+        pixmap = QPixmap(file_loc)
+        self.ui.graph.setPixmap(pixmap)
         plt.clf()
+
+        right_width = pixmap.width()
+        left_width = self.main_window.width() - right_width
+        self.ui.splitter.setSizes([left_width, right_width])
 
     def on_terminate(self):
         # removed saved images
