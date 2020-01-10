@@ -138,7 +138,7 @@ class LanguageDetector(QWidget):
         # removed saved images
         folder = Path('saves')
         for filename in os.listdir(folder):
-            if filename is .gitignore:
+            if filename == '.gitignore':
                 continue
             file_path = os.path.join(folder, filename)
             try:
