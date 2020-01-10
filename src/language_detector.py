@@ -138,6 +138,8 @@ class LanguageDetector(QWidget):
         # removed saved images
         folder = Path('saves')
         for filename in os.listdir(folder):
+            if filename is .gitignore:
+                continue
             file_path = os.path.join(folder, filename)
             try:
                 if os.path.isfile(file_path) or os.path.islink(file_path):
