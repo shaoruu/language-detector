@@ -129,7 +129,7 @@ class LanguageDetector(QWidget):
         explode = np.zeros(len(prediction_results))
         explode[0] = 0.1
 
-        plt.title('Square Error of All Languages')
+        plt.title('Percent Possibility of All Languages')
         plt.xticks(ypos, languages)
         plt.ylabel('score')
         # plt.bar(ypos, values)
