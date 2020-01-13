@@ -162,6 +162,9 @@ background-color: rgb(21, 34, 61);</string>
             <property name="editTriggers">
              <set>QAbstractItemView::NoEditTriggers</set>
             </property>
+            <property name="alternatingRowColors">
+             <bool>false</bool>
+            </property>
             <property name="textElideMode">
              <enum>Qt::ElideRight</enum>
             </property>

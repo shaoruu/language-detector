@@ -8,7 +8,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from pathlib import Path
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QPixmap
+from PyQt5.QtGui import QPixmap, QColor, QBrush
 from PyQt5.QtWidgets import QMainWindow, QWidget, QApplication, QFileDialog, QTableWidgetItem
 
 from .ui import Ui_MainWindow
@@ -28,6 +28,13 @@ class LanguageDetector(QWidget):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self.main_window)
         self.main_window.setWindowTitle('Language Detector')
+
+        header_cells = [
+            self.ui.languagesTable.horizontalHeaderItem(i) for i in range(3)]
+        for cell in header_cells:
+            cell.setBackground(QBrush(QColor(37, 50, 75)))
+        self.ui.languagesTable.verticalHeader().setStyleSheet(
+            "background-color: rgb(37, 50, 75)")
 
     def init_listeners(self):
         self.ui.importButton.clicked.connect(lambda: self.import_file())

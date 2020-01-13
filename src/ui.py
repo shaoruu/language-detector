@@ -83,6 +83,7 @@ class Ui_MainWindow(object):
         self.languagesTable.setStyleSheet("color: rgb(238, 238, 238);\n"
 "background-color: rgb(21, 34, 61);")
         self.languagesTable.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.languagesTable.setAlternatingRowColors(False)
         self.languagesTable.setTextElideMode(QtCore.Qt.ElideRight)
         self.languagesTable.setObjectName("languagesTable")
         self.languagesTable.setColumnCount(3)
