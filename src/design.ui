@@ -156,52 +156,24 @@
           <item>
            <widget class="QTableWidget" name="languagesTable">
             <property name="styleSheet">
-             <string notr="true">color: rgb(238, 238, 238);
-background-color: rgb(21, 34, 61);</string>
+             <string notr="true">color: rgb(238, 238, 238);</string>
             </property>
-            <property name="editTriggers">
-             <set>QAbstractItemView::NoEditTriggers</set>
-            </property>
-            <property name="alternatingRowColors">
-             <bool>false</bool>
-            </property>
-            <property name="textElideMode">
-             <enum>Qt::ElideRight</enum>
-            </property>
-            <attribute name="horizontalHeaderCascadingSectionResizes">
-             <bool>false</bool>
-            </attribute>
-            <attribute name="horizontalHeaderDefaultSectionSize">
-             <number>90</number>
-            </attribute>
             <attribute name="horizontalHeaderStretchLastSection">
              <bool>true</bool>
-            </attribute>
-            <attribute name="verticalHeaderStretchLastSection">
-             <bool>false</bool>
             </attribute>
             <column>
              <property name="text">
               <string>Language</string>
-             </property>
-             <property name="textAlignment">
-              <set>AlignCenter</set>
              </property>
             </column>
             <column>
              <property name="text">
               <string>%</string>
              </property>
-             <property name="textAlignment">
-              <set>AlignCenter</set>
-             </property>
             </column>
             <column>
              <property name="text">
               <string>Error</string>
-             </property>
-             <property name="textAlignment">
-              <set>AlignCenter</set>
              </property>
             </column>
            </widget>
