@@ -80,7 +80,12 @@ class Ui_MainWindow(object):
         self.languagesLabel.setObjectName("languagesLabel")
         self.verticalLayout_3.addWidget(self.languagesLabel)
         self.languagesTable = QtWidgets.QTableWidget(self.layoutWidget)
-        self.languagesTable.setStyleSheet("color: rgb(238, 238, 238);")
+        self.languagesTable.setStyleSheet("color: rgb(238, 238, 238);\n"
+"selection-background-color: rgb(114, 159, 207);\n"
+"alternate-background-color: rgb(70, 88, 129);\n"
+"background-color: rgb(27, 42, 73);")
+        self.languagesTable.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.languagesTable.setAlternatingRowColors(True)
         self.languagesTable.setObjectName("languagesTable")
         self.languagesTable.setColumnCount(3)
         self.languagesTable.setRowCount(0)
@@ -90,7 +95,10 @@ class Ui_MainWindow(object):
         self.languagesTable.setHorizontalHeaderItem(1, item)
         item = QtWidgets.QTableWidgetItem()
         self.languagesTable.setHorizontalHeaderItem(2, item)
+        self.languagesTable.horizontalHeader().setVisible(True)
         self.languagesTable.horizontalHeader().setStretchLastSection(True)
+        self.languagesTable.verticalHeader().setVisible(True)
+        self.languagesTable.verticalHeader().setCascadingSectionResizes(True)
         self.verticalLayout_3.addWidget(self.languagesTable)
         self.horizontalLayout_2.addLayout(self.verticalLayout_3)
         self.left_panel.addLayout(self.horizontalLayout_2)
