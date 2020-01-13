@@ -27,6 +27,7 @@ class LanguageDetector(QWidget):
         self.main_window = QMainWindow()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self.main_window)
+        self.main_window.setWindowTitle('Language Detector')
 
     def init_listeners(self):
         self.ui.importButton.clicked.connect(lambda: self.import_file())
