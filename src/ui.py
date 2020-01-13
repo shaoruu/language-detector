@@ -14,13 +14,12 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1000, 550)
-        MainWindow.setMinimumSize(QtCore.QSize(1000, 550))
-        MainWindow.setMaximumSize(QtCore.QSize(1000, 550))
         MainWindow.setStyleSheet("background-color: rgb(27, 42, 73);")
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
+        self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
+        self.gridLayout.setObjectName("gridLayout")
         self.splitter = QtWidgets.QSplitter(self.centralwidget)
-        self.splitter.setGeometry(QtCore.QRect(0, 0, 1001, 541))
         self.splitter.setOrientation(QtCore.Qt.Horizontal)
         self.splitter.setObjectName("splitter")
         self.layoutWidget = QtWidgets.QWidget(self.splitter)
@@ -156,6 +155,7 @@ class Ui_MainWindow(object):
         self.graph.setWordWrap(True)
         self.graph.setObjectName("graph")
         self.right_panel.addWidget(self.graph)
+        self.gridLayout.addWidget(self.splitter, 0, 0, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
