@@ -59,7 +59,7 @@ class LanguageDetector(QWidget):
         if filename == '':
             return
 
-        with open(filename) as text:
+        with open(filename, encoding='utf-8') as text:
             whole_text = text.read()
             self.ui.inputBox.setText(whole_text)
 
