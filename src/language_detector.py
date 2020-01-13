@@ -122,7 +122,7 @@ class LanguageDetector(QWidget):
         ypos = np.arange(len(prediction_results))
 
         languages = [l[0] for l in prediction_results]
-        values = [v[1] for v in prediction_results]
+        values = [1 / v[1] for v in prediction_results]
         total = sum(values)
         values = [v / total for v in values]
         explode = np.zeros(len(prediction_results))
