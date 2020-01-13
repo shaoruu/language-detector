@@ -34,7 +34,7 @@ class LanguageDetector(QWidget):
         atexit.register(self.on_terminate)
 
     def init_frequencies(self):
-        with open(Path('assets/letter-frequency.txt'), encoding='utf-8') as csv_file:
+        with open(Path('assets/letter-frequency.ihf'), encoding='utf-8') as csv_file:
             csv_reader = csv.DictReader(csv_file, delimiter=';')
 
             line_count = 0
@@ -123,11 +123,17 @@ class LanguageDetector(QWidget):
 
         languages = [l[0] for l in prediction_results]
         values = [v[1] for v in prediction_results]
+        total = sum(values)
+        values = [v / total for v in values]
+        explode = np.zeros(len(prediction_results))
+        explode[0] = 0.1
 
         plt.title('Square Error of All Languages')
         plt.xticks(ypos, languages)
         plt.ylabel('score')
-        plt.bar(ypos, values)
+        # plt.bar(ypos, values)
+        plt.pie(values, labels=languages, autopct='%1.1f%%',
+                shadow=True, startangle=90, explode=explode)
 
         fig = plt.gcf()
         fig.autofmt_xdate()
