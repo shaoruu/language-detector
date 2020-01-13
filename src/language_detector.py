@@ -133,10 +133,11 @@ class LanguageDetector(QWidget):
         plt.ylabel('score')
         # plt.bar(ypos, values)
         plt.pie(values, labels=languages, autopct='%1.1f%%',
-                shadow=True, startangle=90, explode=explode)
+                shadow=True, startangle=90, explode=explode, pctdistance=0.85)
 
         fig = plt.gcf()
         fig.autofmt_xdate()
+        plt.tight_layout()
 
         file_loc = str(Path(f"saves/{str(uuid.uuid1())}.png"))
         plt.savefig(file_loc)
