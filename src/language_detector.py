@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 from pathlib import Path
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPixmap
-from PyQt5.QtWidgets import QMainWindow, QWidget, QApplication, QFileDialog, QListWidgetItem
+from PyQt5.QtWidgets import QMainWindow, QWidget, QApplication, QFileDialog, QTableWidgetItem
 
 from .ui import Ui_MainWindow
 
@@ -112,11 +112,22 @@ class LanguageDetector(QWidget):
         self.graph(prediction_results)
 
     def list(self, prediction_results):
-        index = 1
-        self.ui.languagesList.clear()
+        index = 0
+
+        self.ui.languagesTable.clearContents()
+        self.ui.languagesTable.setRowCount(len(prediction_results))
+
+        values = [1 / v[1] for v in prediction_results]
+        total = sum(values)
+        percentages = [v / total for v in values]
+
         for language in prediction_results:
-            self.ui.languagesList.addItem(
-                f"{index}.  {language[0]} - {round(language[1] * 100, 2)}")
+            self.ui.languagesTable.setItem(
+                index, 0, QTableWidgetItem(language[0]))
+            self.ui.languagesTable.setItem(
+                index, 1, QTableWidgetItem(str(round(percentages[index] * 100, 2))+'%'))
+            self.ui.languagesTable.setItem(
+                index, 2, QTableWidgetItem(str(round(language[1] * 100, 2))))
             index += 1
 
     def graph(self, prediction_results):
